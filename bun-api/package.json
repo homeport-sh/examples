@@ -1,0 +1,12 @@
+{
+  "name": "bun-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch index.ts",
+    "build": "bun build --compile --minify index.ts --outfile server"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
