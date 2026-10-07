@@ -1,6 +1,0 @@
-# The build makes one binary: FrankenPHP with this app embedded. It serves
-# the app with its php-server command, on the port homeport gives it.
-run: php-server --listen :$PORT
-
-# Migrations, when the app has a database (args to the binary, no shell):
-# release: php-cli artisan migrate --force
