@@ -17,4 +17,6 @@ Each app listens on `$PORT`, which homeport sets.
 jobs run as they're dispatched and logs go to stderr. Its one setting is
 `APP_KEY`, which homeport generates when the app is created; homeport
 detects everything else.
-`/health` answers JSON.
+`/health` answers JSON. `/db` says whether a database is attached: it
+answers "not connected" until you add one from the app's Database tab,
+then "connected".
