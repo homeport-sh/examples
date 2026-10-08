@@ -7,11 +7,21 @@ repository and pick a folder.
 | Folder | What it is |
 |---|---|
 | `go-api/` | A Go HTTP API, built to a single binary |
-| `bun-api/` | A Bun HTTP API, compiled to a single binary |
+| `bun-api/` | A Bun HTTP API whose own build compiles it to a single binary (`bun build --compile`) |
+| `elysia-api/` | An Elysia API, run with Bun from its files: no build |
+| `express-api/` | An Express API, run with Node (24, by its `.nvmrc`) |
+| `nextjs-app/` | A Next.js app, its standalone output run with Node |
 | `static-site/` | A static site: one HTML page, nothing to build |
 | `laravel-app/` | A Laravel app, served by FrankenPHP (nothing compiled per app) |
 
 Each app listens on `$PORT`, which homeport sets.
+
+A JavaScript app runs what its build produces, with the runtime it uses:
+the framework's production output, or the app with its production
+dependencies, plus a pinned official Node or Bun. It's compiled to a
+single binary only when its own build says so, as `bun-api/`'s does.
+`elysia-api/` runs on Bun because its start script is `bun src/index.ts`;
+`express-api/` and `nextjs-app/` run on Node.
 
 `laravel-app/` needs no database: sessions are cookies, the cache is files,
 jobs run as they're dispatched and logs go to stderr. Its one setting is

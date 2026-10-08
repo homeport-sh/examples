@@ -1,4 +1,5 @@
-// A small JSON API: homeport compiles it to one binary and runs it on $PORT.
+// A small JSON API: its build compiles it to one binary (bun build --compile),
+// which homeport runs on $PORT.
 const started = Date.now()
 
 const server = Bun.serve({
