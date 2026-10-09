@@ -13,6 +13,8 @@ repository and pick a folder.
 | `nextjs-app/` | A Next.js app, its standalone output run with Node |
 | `static-site/` | A static site: one HTML page, nothing to build |
 | `laravel-app/` | A Laravel app, served by FrankenPHP (nothing compiled per app) |
+| `laravel-inertia-ssr/` | A Laravel app with Inertia and React, its pages rendered before they're sent |
+| `laravel-reverb/` | A Laravel app with Reverb: pages that get broadcasts over WebSockets, through Echo |
 
 Each app listens on `$PORT`, which homeport sets.
 
@@ -30,3 +32,20 @@ detects everything else.
 `/health` answers JSON. `/db` says whether a database is attached: it
 answers "not connected" until you add one from the app's Database tab,
 then "connected".
+
+`laravel-inertia-ssr/` is Inertia 3 with React, built with
+`npm run build:ssr`. homeport sees `inertiajs/inertia-laravel` and the
+`build:ssr` script, builds the SSR bundle, and runs Inertia's renderer
+beside the app, where Laravel reaches it at Inertia's default address. Its
+renderer runs on Node, because nothing in the project says Bun. Each page
+arrives with its HTML already rendered (`data-server-rendered`), then React
+takes over in the browser.
+
+`laravel-reverb/` is `php artisan install:broadcasting --reverb` with a
+public channel. homeport sees `laravel/reverb`, runs Reverb as a process
+named `reverb` and sends the app's `/app` and `/apps` paths to it. It sets
+the Reverb variables Laravel and Echo read (`REVERB_APP_ID`, `_KEY`,
+`_SECRET`, `REVERB_HOST`, `REVERB_PORT`, `REVERB_SCHEME`) and gives the
+build their `VITE_` copies, so `resources/js/echo.js` works as generated.
+Processes run while the app is always on (at least 1 copy). Open the page
+in two tabs and send a ping: both get it.
