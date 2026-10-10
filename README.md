@@ -12,7 +12,7 @@ repository and pick a folder.
 | `express-api/` | An Express API, run with Node (24, by its `.nvmrc`) |
 | `nextjs-app/` | A Next.js app, its standalone output run with Node |
 | `tanstack-start-app/` | A TanStack Start app with a server function, built with Nitro and run with Node |
-| `tanstack-start-bun-app/` | The same app without Nitro, as TanStack's starter comes: served by homeport's own server, on Bun |
+| `tanstack-start-bun-app/` | The same app on Bun: Nitro's bun preset, run with Bun |
 | `sveltekit-bun-app/` | A SvelteKit app with a form action, compiled by SvelteKit's Bun adapter to a single binary |
 | `static-site/` | A static site: one HTML page, nothing to build |
 | `laravel-app/` | A Laravel app, served by FrankenPHP (nothing compiled per app) |
@@ -34,12 +34,11 @@ single binary only when its own build says so, as `bun-api/`'s does.
 page is rendered on the server by a loader that calls a server function,
 and its button calls the same function from the browser.
 
-`tanstack-start-bun-app/` is that app without Nitro, which is how
-`@tanstack/cli create` makes one: its build is `dist/server/server.js`, a
-request handler with no server. homeport ships a small server of its own
-beside it (srvx, TanStack's own), which serves `dist/client` and hands
-every other request to the handler. It runs on Bun because the app
-installs with Bun (`bun.lock`).
+`tanstack-start-bun-app/` is that app on Bun: `nitro({ preset: 'bun' })`
+makes the build a Bun server, which homeport runs with Bun. TanStack
+Start needs Nitro to make a server at all - without it the build is a
+request handler with nothing to serve it - so homeport asks for it, as
+TanStack's hosting guide does for Node and Bun.
 
 `sveltekit-bun-app/` uses `@sveltejs/adapter-bun` with
 `buildOptions.compile`, so `bun run --bun build` writes one executable,
